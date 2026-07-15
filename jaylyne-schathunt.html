@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Jaylyne 💕</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#fff6f8;
+    --blush:#ffd9e6;
+    --rose:#ff8fae;
+    --red:#e0294b;
+    --deep:#6b2737;
+    --white:#ffffff;
+    --shadow: 0 20px 60px rgba(224,41,75,0.18);
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:'Quicksand', sans-serif;
+    color:var(--deep);
+    background:
+      radial-gradient(circle at 15% 20%, var(--blush) 0%, transparent 45%),
+      radial-gradient(circle at 85% 80%, var(--blush) 0%, transparent 45%),
+      linear-gradient(160deg, var(--cream), #ffffff 60%, var(--cream));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow-x:hidden;
+    position:relative;
+    padding:24px;
+  }
+
+  /* floating decorative hearts */
+  .bg-hearts{position:fixed; inset:0; overflow:hidden; pointer-events:none; z-index:0;}
+  .bg-hearts span{
+    position:absolute; bottom:-10%; font-size:28px; color:var(--rose);
+    opacity:0.18; animation: floatUp linear infinite;
+    user-select:none;
+  }
+  @keyframes floatUp{
+    0%{ transform:translateY(0) rotate(0deg); opacity:0; }
+    10%{ opacity:0.25; }
+    90%{ opacity:0.2; }
+    100%{ transform:translateY(-115vh) rotate(25deg); opacity:0; }
+  }
+
+  .app{position:relative; z-index:1; width:100%; display:flex; justify-content:center;}
+
+  .card{
+    background:var(--white);
+    border-radius:28px;
+    box-shadow:var(--shadow);
+    width:100%;
+    max-width:460px;
+    min-height:520px;
+    padding:38px 32px;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    border:1px solid #ffeaf1;
+  }
+
+  .screen{display:none; flex-direction:column; flex:1; text-align:center;}
+  .screen.active{display:flex; animation:fadeIn .5s ease;}
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  h1,h2,h3{font-family:'Cormorant Garamond', serif; margin:0; font-weight:600;}
+
+  /* ---- start screen ---- */
+  #screen-start{align-items:center; justify-content:center; gap:18px;}
+  .eyebrow{
+    letter-spacing:3px; text-transform:uppercase; font-size:12px; color:var(--rose); font-weight:700;
+  }
+  #screen-start h1{font-size:44px; font-style:italic; color:var(--red); line-height:1.1;}
+  #screen-start p{font-size:16px; color:var(--deep); opacity:0.85; max-width:320px; margin:0 auto;}
+  .start-heart{font-size:38px; animation:pulse 1.6s ease-in-out infinite;}
+  @keyframes pulse{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.12);} }
+
+  .btn{
+    border:none; cursor:pointer; font-family:'Quicksand',sans-serif; font-weight:700;
+    border-radius:999px; transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:active{transform:scale(0.96);}
+  .btn-primary{
+    background:linear-gradient(135deg, var(--red), var(--rose));
+    color:var(--white); padding:14px 34px; font-size:16px;
+    box-shadow:0 10px 24px rgba(224,41,75,0.35);
+  }
+  .btn-primary:hover{ box-shadow:0 12px 28px rgba(224,41,75,0.45); }
+
+  .footer-sig{position:absolute; bottom:14px; left:0; right:0; text-align:center; font-size:11px; color:var(--rose); opacity:0.7;}
+
+  /* ---- progress hearts ---- */
+  .progress-hearts{display:flex; justify-content:center; gap:8px; margin-bottom:6px;}
+  .progress-hearts .p-heart{font-size:16px; color:#f3c6d2; transition: color .3s ease, transform .3s ease;}
+  .progress-hearts .p-heart.filled{color:var(--red); transform:scale(1.15);}
+  .progress-label{font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--rose); font-weight:700; margin-bottom:22px;}
+
+  /* ---- question body ---- */
+  #screen-question{justify-content:flex-start;}
+  .q-body{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px;}
+  .q-title{font-size:28px; color:var(--deep); line-height:1.25; padding:0 4px;}
+  .q-title.binary{
+    font-family:'Courier New', monospace; font-size:19px; letter-spacing:2px;
+    background:var(--cream); border-radius:14px; padding:16px; border:1px dashed var(--rose);
+    word-break:break-all;
+  }
+  .q-sub{font-size:13px; color:var(--rose); font-weight:600; margin-top:-10px;}
+  .rebus-box{
+    font-size:44px; letter-spacing:6px; cursor:pointer; user-select:none;
+    background:var(--cream); border-radius:18px; padding:22px 18px; border:1px dashed var(--rose);
+  }
+  .reveal-text{font-size:14px; color:var(--deep); opacity:0; max-height:0; overflow:hidden; transition:opacity .3s ease;}
+  .reveal-text.shown{opacity:0.85; max-height:60px; margin-top:4px;}
+
+  input[type="text"], select{
+    font-family:'Quicksand',sans-serif; font-size:16px; padding:12px 16px; border-radius:14px;
+    border:2px solid #ffd9e6; background:var(--cream); color:var(--deep); outline:none; text-align:center;
+    width:100%; max-width:260px;
+  }
+  input[type="text"]:focus, select:focus{border-color:var(--red);}
+  .date-row{display:flex; gap:8px; justify-content:center;}
+  .date-row select{max-width:110px; padding:12px 8px;}
+
+  .yesno-row{display:flex; gap:16px; margin-top:6px;}
+  .btn-yes{background:linear-gradient(135deg, var(--red), var(--rose)); color:var(--white); padding:14px 30px; font-size:16px;}
+  .btn-no{background:var(--white); color:var(--deep); border:2px solid #f3c6d2; padding:14px 30px; font-size:16px;}
+
+  .next-btn{
+    width:56px; height:56px; border-radius:50%; align-self:center; margin-top:8px;
+    background:linear-gradient(135deg, var(--red), var(--rose)); color:var(--white);
+    font-size:22px; display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 24px rgba(224,41,75,0.35);
+  }
+  .next-btn:disabled{ opacity:0.35; box-shadow:none; cursor:not-allowed; }
+
+  /* ---- milestone (photo reveal) ---- */
+  #screen-milestone{align-items:center; justify-content:center; gap:22px;}
+  .polaroid{
+    background:var(--white); padding:14px 14px 44px 14px; box-shadow:0 16px 32px rgba(107,39,55,0.25);
+    transform:rotate(-3deg); border-radius:4px; position:relative;
+  }
+  .polaroid img{width:230px; height:230px; object-fit:cover; border-radius:2px; display:block; background:var(--cream);}
+  .polaroid .tape{
+    position:absolute; top:-14px; left:50%; transform:translateX(-50%) rotate(-4deg);
+    width:70px; height:22px; background:rgba(255,143,174,0.55); border-radius:2px;
+  }
+  .milestone-caption{font-size:15px; color:var(--rose); font-weight:700;}
+
+  /* ---- final screen ---- */
+  #screen-final{align-items:center; justify-content:center; gap:16px;}
+  #screen-final h2{font-size:32px; font-style:italic; color:var(--red);}
+  #screen-final p{font-size:15px; max-width:300px; opacity:0.85;}
+
+  /* ---- feedback overlay (check / x) ---- */
+  .feedback-overlay{
+    position:absolute; inset:0; border-radius:28px; background:rgba(255,255,255,0.94);
+    display:none; align-items:center; justify-content:center; z-index:5;
+  }
+  .feedback-overlay.show{display:flex;}
+  .feedback-icon{
+    width:96px; height:96px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:52px; color:var(--white); animation:pop .35s ease;
+  }
+  .feedback-icon.correct{background:#4caf7d;}
+  .feedback-icon.wrong{background:var(--red);}
+  @keyframes pop{ 0%{transform:scale(0.3); opacity:0;} 70%{transform:scale(1.15);} 100%{transform:scale(1); opacity:1;} }
+
+  /* ---- fail overlay (the "no" screen) ---- */
+  .fail-overlay{
+    position:fixed; inset:0; background:var(--white); z-index:20;
+    display:none; align-items:center; justify-content:center; text-align:center; padding:20px;
+  }
+  .fail-overlay.show{display:flex;}
+  .fail-overlay span{
+    font-family:'Quicksand',sans-serif; font-weight:700; color:var(--red);
+    font-size:clamp(48px, 12vw, 90px); animation:shake .4s ease;
+    text-shadow:0 6px 20px rgba(224,41,75,0.3);
+  }
+  @keyframes shake{ 0%,100%{transform:translateX(0);} 20%{transform:translateX(-8px);} 40%{transform:translateX(8px);} 60%{transform:translateX(-6px);} 80%{transform:translateX(6px);} }
+
+  /* ---- confetti ---- */
+  .confetti-layer{position:fixed; inset:0; pointer-events:none; z-index:15; overflow:hidden;}
+  .confetti-piece{position:absolute; top:-20px; border-radius:2px; animation:confettiFall linear forwards;}
+  @keyframes confettiFall{
+    to{ transform:translateY(110vh) rotate(540deg); opacity:0.9; }
+  }
+
+  @media (max-width:480px){
+    .card{padding:30px 20px; min-height:480px;}
+    #screen-start h1{font-size:34px;}
+    .q-title{font-size:22px;}
+    .polaroid img{width:190px; height:190px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-hearts" aria-hidden="true">
+  <span style="left:6%; font-size:22px; animation-duration:14s; animation-delay:0s;">♥</span>
+  <span style="left:18%; font-size:16px; animation-duration:18s; animation-delay:2s;">♥</span>
+  <span style="left:30%; font-size:26px; animation-duration:12s; animation-delay:5s;">♥</span>
+  <span style="left:45%; font-size:14px; animation-duration:20s; animation-delay:1s;">♥</span>
+  <span style="left:58%; font-size:24px; animation-duration:15s; animation-delay:4s;">♥</span>
+  <span style="left:70%; font-size:18px; animation-duration:17s; animation-delay:3s;">♥</span>
+  <span style="left:82%; font-size:28px; animation-duration:13s; animation-delay:6s;">♥</span>
+  <span style="left:92%; font-size:16px; animation-duration:19s; animation-delay:2.5s;">♥</span>
+</div>
+
+<div class="app">
+  <div class="card" id="card">
+
+    <section id="screen-start" class="screen active">
+      <div class="eyebrow">A little treasure hunt</div>
+      <div class="start-heart">💌</div>
+      <h1>For You,<br>Jaylyne</h1>
+      <p>Seven little questions, a few memories along the way, and one treasure at the end. Only you know the answers.</p>
+      <button class="btn btn-primary" id="startBtn">Begin ♡</button>
+    </section>
+
+    <section id="screen-question" class="screen">
+      <div class="progress-label" id="progressLabel">Question 1 of 7</div>
+      <div class="progress-hearts" id="progressHearts"></div>
+      <div class="q-body" id="qBody"></div>
+      <button class="next-btn" id="nextBtn" disabled>→</button>
+      <div class="feedback-overlay" id="feedbackOverlay"><div class="feedback-icon" id="feedbackIcon"></div></div>
+    </section>
+
+    <section id="screen-milestone" class="screen">
+      <div class="polaroid">
+        <div class="tape"></div>
+        <img id="milestoneImg" src="" alt="memory">
+      </div>
+      <div class="milestone-caption" id="milestoneCaption">A memory unlocked 💕</div>
+      <button class="btn btn-primary" id="milestoneContinue">Continue ♡</button>
+    </section>
+
+    <section id="screen-final" class="screen">
+      <div class="polaroid">
+        <div class="tape"></div>
+        <img id="finalImg" src="" alt="treasure">
+      </div>
+      <h2>You found it.</h2>
+      <p>Since November 8th, 2025, every single day with you has been the real treasure. Happy hunting, mijn lief. I love you. 💕</p>
+      <button class="btn btn-primary" id="replayBtn">Play again</button>
+    </section>
+
+  </div>
+</div>
+
+<div class="fail-overlay" id="failOverlay"><span>FUCK YOU</span></div>
+<div class="confetti-layer" id="confettiLayer"></div>
+
+<script>
+(function(){
+
+  const questions = [
+    {
+      type:'date',
+      title:'When was it official?',
+      sub:'Pick the date 📅',
+      correct: v => v.day===8 && v.month===10 && v.year===2025
+    },
+    {
+      type:'text',
+      title:"What's my favorite color?",
+      correct: v => v === 'red'
+    },
+    {
+      type:'text',
+      title:'What is my favorite cat called?',
+      correct: v => v === 'moekie'
+    },
+    {
+      type:'select',
+      isRebus:true,
+      rebus:'❓ 👉 🥇 🌷',
+      revealText:"What's my favorite flower?",
+      options:['Choose an answer…','Red rose','Black lavender','Hyacint','Orange tulip',"I don't have any"],
+      correct: v => v === "I don't have any"
+    },
+    {
+      type:'text',
+      title:'What is my favorite car brand?',
+      correct: v => v === 'audi'
+    },
+    {
+      type:'yesno',
+      title:'Do you love me?'
+    },
+    {
+      type:'text',
+      title:'01001101 01011001 00100000 01001110 01000001 01001101 01000101',
+      titleStyle:'binary',
+      sub:'Decode the binary, then answer 🔡',
+      correct: v => v === 'finley'
+    }
+  ];
+
+  const state = { current:0, correct:0 };
+
+  const screens = {
+    start: document.getElementById('screen-start'),
+    question: document.getElementById('screen-question'),
+    milestone: document.getElementById('screen-milestone'),
+    final: document.getElementById('screen-final')
+  };
+  function showScreen(name){
+    Object.values(screens).forEach(s=>s.classList.remove('active'));
+    screens[name].classList.add('active');
+  }
+
+  const qBody = document.getElementById('qBody');
+  const nextBtn = document.getElementById('nextBtn');
+  const progressLabel = document.getElementById('progressLabel');
+  const progressHearts = document.getElementById('progressHearts');
+  const feedbackOverlay = document.getElementById('feedbackOverlay');
+  const feedbackIcon = document.getElementById('feedbackIcon');
+
+  function normalize(s){ return (s||'').trim().toLowerCase(); }
+
+  function renderProgress(){
+    progressLabel.textContent = 'Question ' + (state.current+1) + ' of ' + questions.length;
+    progressHearts.innerHTML = '';
+    for(let i=0;i<questions.length;i++){
+      const span = document.createElement('span');
+      span.className = 'p-heart' + (i < state.correct ? ' filled' : '');
+      span.textContent = '♥';
+      progressHearts.appendChild(span);
+    }
+  }
+
+  let getValue = () => null;
+
+  function renderQuestion(idx){
+    const q = questions[idx];
+    renderProgress();
+    nextBtn.style.display = q.type === 'yesno' ? 'none' : 'flex';
+    nextBtn.disabled = true;
+    qBody.innerHTML = '';
+
+    if(q.type === 'date'){
+      qBody.innerHTML = `
+        <div class="q-title">${q.title}</div>
+        <div class="q-sub">${q.sub}</div>
+        <div class="date-row">
+          <select id="dDay"><option value="">Day</option>${Array.from({length:31},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('')}</select>
+          <select id="dMonth"><option value="">Month</option>${['January','February','March','April','May','June','July','August','September','October','November','December'].map((m,i)=>`<option value="${i}">${m}</option>`).join('')}</select>
+          <select id="dYear"><option value="">Year</option>${[2022,2023,2024,2025,2026,2027].map(y=>`<option value="${y}">${y}</option>`).join('')}</select>
+        </div>
+      `;
+      const dDay = qBody.querySelector('#dDay'), dMonth = qBody.querySelector('#dMonth'), dYear = qBody.querySelector('#dYear');
+      const check = () => { nextBtn.disabled = !(dDay.value && dMonth.value && dYear.value); };
+      [dDay,dMonth,dYear].forEach(el=>el.addEventListener('change',check));
+      getValue = () => ({day:parseInt(dDay.value), month:parseInt(dMonth.value), year:parseInt(dYear.value)});
+
+    } else if(q.type === 'text'){
+      const titleClass = q.titleStyle === 'binary' ? 'q-title binary' : 'q-title';
+      qBody.innerHTML = `
+        <div class="${titleClass}">${q.title}</div>
+        ${q.sub ? `<div class="q-sub">${q.sub}</div>` : ''}
+        <input type="text" id="txtAnswer" placeholder="Type your answer…" autocomplete="off">
+      `;
+      const input = qBody.querySelector('#txtAnswer');
+      input.addEventListener('input', () => { nextBtn.disabled = normalize(input.value).length === 0; });
+      getValue = () => normalize(input.value);
+
+    } else if(q.type === 'select'){
+      const rebusHtml = q.isRebus ? `
+        <div class="rebus-box" id="rebusBox">${q.rebus}</div>
+        <div class="q-sub">tap the rebus if you need a hint</div>
+        <div class="reveal-text" id="revealText">${q.revealText}</div>
+      ` : `<div class="q-title">${q.title}</div>`;
+      qBody.innerHTML = `
+        ${rebusHtml}
+        <select id="selAnswer">${q.options.map(o=>`<option value="${o}">${o}</option>`).join('')}</select>
+      `;
+      if(q.isRebus){
+        const rebusBox = qBody.querySelector('#rebusBox');
+        const revealText = qBody.querySelector('#revealText');
+        rebusBox.addEventListener('click', () => revealText.classList.toggle('shown'));
+      }
+      const sel = qBody.querySelector('#selAnswer');
+      sel.addEventListener('change', () => { nextBtn.disabled = sel.selectedIndex === 0; });
+      getValue = () => sel.value;
+
+    } else if(q.type === 'yesno'){
+      qBody.innerHTML = `
+        <div class="q-title">${q.title}</div>
+        <div class="yesno-row">
+          <button class="btn btn-yes" id="yesBtn">Yes 💗</button>
+          <button class="btn btn-no" id="noBtn">No</button>
+        </div>
+      `;
+      qBody.querySelector('#yesBtn').addEventListener('click', handleYes);
+      qBody.querySelector('#noBtn').addEventListener('click', handleNo);
+    }
+  }
+
+  function showFeedback(isCorrect, done){
+    feedbackIcon.className = 'feedback-icon ' + (isCorrect ? 'correct' : 'wrong');
+    feedbackIcon.textContent = isCorrect ? '✓' : '✕';
+    feedbackOverlay.classList.add('show');
+    setTimeout(() => {
+      feedbackOverlay.classList.remove('show');
+      done && done();
+    }, 1000);
+  }
+
+  function checkAnswer(){
+    if(nextBtn.disabled) return;
+    const q = questions[state.current];
+    const val = getValue();
+    const isCorrect = q.correct(val);
+    showFeedback(isCorrect, () => {
+      if(isCorrect){ advanceAfterCorrect(); }
+    });
+  }
+  nextBtn.addEventListener('click', checkAnswer);
+
+  function advanceAfterCorrect(){
+    state.correct++;
+    if(state.correct % 2 === 0 && state.correct/2 <= 4){
+      showMilestone(state.correct/2);
+    } else {
+      goToNextOrFinal();
+    }
+  }
+
+  function goToNextOrFinal(){
+    state.current++;
+    if(state.current >= questions.length){
+      showFinal();
+    } else {
+      renderQuestion(state.current);
+      showScreen('question');
+    }
+  }
+
+  function setPhotoSrc(imgEl, base){
+    let triedAlt = false;
+    imgEl.onerror = function(){
+      if(!triedAlt){ triedAlt = true; imgEl.src = base + '.jpeg'; }
+      else { imgEl.onerror = null; imgEl.style.display='none'; }
+    };
+    imgEl.src = base + '.jpg';
+  }
+
+  function showMilestone(n){
+    const img = document.getElementById('milestoneImg');
+    img.style.display = 'block';
+    setPhotoSrc(img, 'foto' + n);
+    document.getElementById('milestoneCaption').textContent = 'Memory #' + n + ' unlocked 💕';
+    showScreen('milestone');
+  }
+  document.getElementById('milestoneContinue').addEventListener('click', goToNextOrFinal);
+
+  function showFinal(){
+    const img = document.getElementById('finalImg');
+    img.style.display = 'block';
+    setPhotoSrc(img, 'foto4');
+    showScreen('final');
+    launchConfetti();
+  }
+
+  function handleYes(){
+    launchConfetti();
+    setTimeout(advanceAfterCorrect, 1400);
+  }
+
+  function handleNo(){
+    const fail = document.getElementById('failOverlay');
+    fail.classList.add('show');
+    setTimeout(() => {
+      fail.classList.remove('show');
+      resetQuiz();
+    }, 1800);
+  }
+
+  function resetQuiz(){
+    state.current = 0;
+    state.correct = 0;
+    showScreen('start');
+  }
+
+  function launchConfetti(){
+    const layer = document.getElementById('confettiLayer');
+    const colors = ['#e0294b','#ff8fae','#ffd9e6','#ffffff'];
+    for(let i=0;i<60;i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      const size = 6 + Math.random()*8;
+      piece.style.width = size + 'px';
+      piece.style.height = (size * (Math.random()>0.5 ? 1 : 2.2)) + 'px';
+      piece.style.left = Math.random()*100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+      const duration = 2.5 + Math.random()*2;
+      piece.style.animationDuration = duration + 's';
+      piece.style.opacity = 0.9;
+      layer.appendChild(piece);
+      setTimeout(() => piece.remove(), duration*1000 + 200);
+    }
+  }
+
+  document.getElementById('startBtn').addEventListener('click', () => {
+    renderQuestion(0);
+    showScreen('question');
+  });
+  document.getElementById('replayBtn').addEventListener('click', resetQuiz);
+
+})();
+</script>
+</body>
+</html>
